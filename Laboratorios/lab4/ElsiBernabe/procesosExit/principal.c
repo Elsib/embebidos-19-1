@@ -20,7 +20,7 @@ int main(){
 	llenarArreglo(datos);
 	imprimirArreglo(datos);
 
-	printf("Probando procesos...");
+	printf("Probando procesos...\n");
 	
 	for (np = 0; np < NUM_PROC; np++)
 	{

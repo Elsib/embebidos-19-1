@@ -14,7 +14,7 @@ int main(){
 	pid_t pid;
 	int np;
 
-	int *datos, pipefd[4], pipe_status;
+	int *datos, pipefd[2], pipe_status;
 
 	datos = reservarMemoria();
 	llenarArreglo(datos);

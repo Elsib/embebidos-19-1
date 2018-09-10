@@ -10,7 +10,7 @@
 
 void procesoPadre(int pipefd[])
 {
-	int np, npc, numero;
+	int np, npc, numero, ordena[N];
 	pid_t pid_hijo;
 
 	printf("Proceso padre ejecutado con pid %d\n", getpid());
@@ -20,16 +20,21 @@ void procesoPadre(int pipefd[])
 	{
 		pid_hijo=wait(&npc);
 		npc = npc>>8;
-		read(pipefd[0], &numero, sizeof(int));
+		//read(pipefd[0], &numero, sizeof(int));
 		if (npc==0)
 		{
+			read(pipefd[0], &numero, sizeof(int));
 			printf("Proceso hijo %d terminado con pid: %d y mayor %d\n", npc, pid_hijo, numero);	
 		}else if(npc==1){
+			read(pipefd[0], &numero, sizeof(int));
 			printf("Proceso hijo %d terminado con pid: %d y menor %d\n", npc, pid_hijo, numero);
 		}else if(npc==2){
+			read(pipefd[0], &numero, sizeof(int));
 			printf("Proceso hijo %d terminado con pid: %d y promedio %d\n", npc, pid_hijo, numero);
-		}else
-			printf("Proceso hijo %d terminado con pid: %d\n", npc, pid_hijo);
+		}else{
+			read(pipefd[0], &ordena, sizeof(int)*N);
+			printf("Proceso hijo %d terminado con pid: %d\n y retorno \n:", npc, pid_hijo);
+		}
 	}
 	close(pipefd[0]);
 }
@@ -65,6 +70,7 @@ void procesoHijo(int np, int * datos, int pipefd[])
 	{
 		close(pipefd[0]);
 		ordenaArreglo(datos);
+		write(pipefd[1], datos, sizeof(int)*N);
 		imprimirArreglo(datos);
 		close(pipefd[1]);
 		exit(np);
